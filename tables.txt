@@ -1,0 +1,95 @@
+CREATE TABLE Users (
+	userId int IDENTITY(1,1),
+    	userName varchar(255) NOT NULL	,
+    	password varchar(255) NOT NULL,
+	firstName varchar(255) NOT NULL,
+	lastName varchar(255) NOT NULL,
+	city varchar(255) NOT NULL,
+	country varchar(255) NOT NULL,
+	mail varchar(255) NOT NULL,
+	question1 varchar(255) NOT NULL,
+	question2 varchar(255) NOT NULL,
+	answer1 varchar(255) NOT NULL,
+	answer2 varchar(255) NOT NULL,
+	PRIMARY KEY (userid)
+);
+
+CREATE TABLE PointOfInterest (
+	pointOfInterestId int IDENTITY(1,1),
+    name varchar(255) NOT NULL,
+    image varchar(255) NOT NULL,
+	description varchar(255) NOT NULL,
+	PRIMARY KEY (pointOfInterestId)
+);
+
+CREATE TABLE Image (
+    imageId int IDENTITY(1,1),
+    name varchar(255) NOT NULL,
+    PRIMARY KEY (imageId)
+);
+
+    CREATE TABLE UserPointOfInterest (
+	userId int NOT NULL,
+    pointOfInterestId int  NOT NULL,
+	PRIMARY KEY (userId, pointOfInterestId)
+);
+
+CREATE TABLE Category (
+	categoryId int IDENTITY(1,1),
+	name varchar(255) NOT NULL,
+	PRIMARY KEY (categoryId)
+);
+
+CREATE TABLE UserCategory (
+	userId int  NOT NULL,
+    categoryId int  NOT NULL,
+	PRIMARY KEY (userId, categoryId)
+);
+
+
+CREATE TABLE PointOfInterestCategory (
+	pointOfInterestId int  NOT NULL,
+	categoryId int  NOT NULL,
+	PRIMARY KEY (pointOfInterestId, categoryId)
+);
+
+CREATE TABLE Rank (
+	rankId int IDENTITY(1,1),
+	rank int NOT NULL,
+	date Date NOT NULL,
+	PRIMARY KEY (rankId)
+);
+
+CREATE TABLE PointOfInterestUserRank (
+	userId int  NOT NULL,
+	rankId int  NOT NULL,
+	pointOfInterestId int  NOT NULL,
+	PRIMARY KEY (userId, rankId, pointOfInterestId )
+);
+
+CREATE TABLE Review (
+	reviewId int IDENTITY(1,1),
+	content varchar(255) NOT NULL,
+	date varchar(255) NOT NULL,
+	PRIMARY KEY (reviewId)
+);
+
+CREATE TABLE PointOfInterestUserReview (
+	pointOfInterestId int  NOT NULL,
+	userId int   NOT NULL,
+	reviewId int   NOT NULL,
+	PRIMARY KEY (pointOfInterestId, userId, reviewId)
+);
+
+CREATE TABLE Visit (
+	visitId int IDENTITY(1,1),
+	date Date NOT NULL,
+	PRIMARY KEY (visitId)
+);
+
+    CREATE TABLE PointOfInterestUserVisit (
+	pointOfInterestId int  NOT NULL,
+	userId int  NOT NULL,
+	visitId int  NOT NULL,
+	PRIMARY KEY (pointOfInterestId  , userId, visitId)
+);

@@ -30,7 +30,7 @@ function createUser(req, res) {
         }
         const query = createUserQuery(req);
 
-        return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+        return DButilsAzureService.query(DButilsAzureService.connection, query);
     });
 
 }
@@ -56,7 +56,7 @@ function addUserCategories(req, userId) {
 
     const query = addUserCategoriesQuery(req, userId);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 //
 // function addUserQuestionsAndAnswersQuery(req, userId) {
@@ -99,7 +99,7 @@ function getLastAddedUserId() {
 
         const query = "SELECT TOP 1 * FROM Users ORDER BY userId DESC";
 
-        DButilsAzureService.Select(DButilsAzureService.connection, query)
+        DButilsAzureService.query(DButilsAzureService.connection, query)
             .then(function (recordId) {
                 console.log("**last added rank ID: " + recordId[0].userId + "**");
 
@@ -182,7 +182,7 @@ function findUserQuery(req) {
 function findUser(req) {
     const query = findUserQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 module.exports = {

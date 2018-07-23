@@ -11,7 +11,7 @@ function addCategoryQuery(req) {
 function addCategory(req) {
     const query = addCategoryQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getCategoriesQuery() {
@@ -21,7 +21,7 @@ function getCategoriesQuery() {
 function getCategories() {
     const query = getCategoriesQuery();
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function handleError(err, res) {
@@ -43,7 +43,7 @@ function removeCategoryQuery(req) {
 function removeCategory(req) {
     const query = removeCategoryQuery(req);
 
-    return DButilsAzureService.Delete(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function updateCategoryQuery(req) {
@@ -59,7 +59,7 @@ function updateCategoryQuery(req) {
 function updateCategory(req) {
     const query = updateCategoryQuery(req);
 
-    return DButilsAzureService.Update(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getCategoryQuery(req) {
@@ -72,7 +72,7 @@ function getCategoryQuery(req) {
 function getCategory(req) {
     const query = getCategoryQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 

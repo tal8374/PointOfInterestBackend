@@ -41,6 +41,25 @@ function recoverUser(req, res) {
         });
 }
 
+function getUserCategories(req, res) {
+    console.log("**GET request for user's categories**");
+
+    loginService.getUserCategories(req)
+        .then(function (questions) {
+            if (questions.length === 0) {
+                res.status(400).send("Getting user's categories request has failed. User is not exists");
+            } else {
+                res.status(200).send(questions);
+            }
+        })
+        .catch(function (err) {
+            console.log(err.message);
+
+            loginService.handleError(err, res);
+        });
+}
+
+
 function getQuestion(req, res) {
     console.log("**GET request for user's question**");
 
@@ -64,5 +83,7 @@ module.exports = {
 
     recoverUser,
 
-    getQuestion
+    getQuestion,
+
+    getUserCategories
 };

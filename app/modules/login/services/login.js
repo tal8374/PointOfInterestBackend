@@ -12,7 +12,7 @@ function loginUserQuery(req) {
 function loginUser(req) {
     const query = loginUserQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function recoverUserQuery(req) {
@@ -29,7 +29,7 @@ function recoverUserQuery(req) {
 function recoverUser(req) {
     const query = recoverUserQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function handleError(err, res) {
@@ -53,19 +53,33 @@ function findUserExistQuery(req) {
 function findUser(req) {
     const query = findUserExistQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
+}
+
+function getUserCategoriesQuery(req) {
+    const userId = "'" + req.params.userId + "'";
+
+    return 'Select * FROM Users' +
+        ' INNER JOIN UserCategory ON UserCategory.userId = Users.userId ' +
+        ' WHERE Users.userId=' + userId;
+}
+
+function getUserCategories(req) {
+    const query = getUserCategoriesQuery(req);
+
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getUserQuestionQuery(req) {
     const userName = "'" + req.body.userName + "'";
 
-    return "Select question1, question2 FROM Users WHERE userName=" + userName ;
+    return "Select question1, question2 FROM Users WHERE userName=" + userName;
 }
 
 function getUserQuestion(req) {
     const query = getUserQuestionQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function sendToken(user, res) {
@@ -97,6 +111,8 @@ module.exports = {
     findUser,
 
     getUserQuestion,
+
+    getUserCategories,
 
     sendToken
 };

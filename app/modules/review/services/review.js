@@ -14,7 +14,7 @@ function createReviewQuery(req) {
 function createReview(req) {
     const query = createReviewQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getLastAddedReviewId() {
@@ -23,7 +23,7 @@ function getLastAddedReviewId() {
 
         const query = "SELECT TOP 1 * FROM Review ORDER BY reviewId DESC";
 
-        DButilsAzureService.Select(DButilsAzureService.connection, query)
+        DButilsAzureService.query(DButilsAzureService.connection, query)
             .then(function (reviewId) {
                 console.log("**last added review ID: " + reviewId[0].reviewId + "**");
 

@@ -21,7 +21,7 @@ app.use('/category', category);
 app.use('/question', question);
 app.use('/country', country);
 
-const port = 3000;
+const port = 1235;
 app.listen(port, function () {
     console.log('Servers side app listening on port ' + port);
 });

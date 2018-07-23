@@ -8,4 +8,7 @@ router.put('/recoverPassword', loginController.recoverUser);
 
 router.post('/questions', loginController.getQuestion);
 
+router.get('/user/:userId', loginController.getUserCategories);
+
+
 module.exports = router;

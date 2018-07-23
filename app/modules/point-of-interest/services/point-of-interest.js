@@ -5,7 +5,7 @@ function createPointOfInterestQuery(req) {
     return squel.insert()
         .into("PointOfInterest")
         .set("name", req.body.name)
-            .set("image", req.body.image)
+        .set("image", req.body.image)
         .set("description", req.body.description)
         .toString();
 }
@@ -13,35 +13,83 @@ function createPointOfInterestQuery(req) {
 function createPointOfInterest(req) {
     const query = createPointOfInterestQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function createUserPointOfInterestQuery(req) {
-    const pointOfInterestId = req.params.pointOfInterestId;
-    const userId = req.params.userId;
+    req.body.favorites = "[" + req.body.favorites + "]";
 
-    return squel.insert()
-        .into("UserPointOfInterest")
-        .set("pointOfInterestId", pointOfInterestId)
-        .set("userId", userId)
-        .toString();
+    console.log(req.body.favorites);
+    console.log("here");
+
+    let userId = req.params.userId;
+    let query = "insert into UserPointOfInterest (pointOfInterestId, userId) ";
+    let favorites = "'" + req.body.favorites.substring(1, req.body.favorites.length - 1) + "'";
+
+    favorites = favorites.substring(1, favorites.length - 1).split(",");
+
+    favorites.forEach(function (pointOfInterestId) {
+        query = query + "SELECT '" + pointOfInterestId + "', '" + userId + "' ";
+        query = query + "UNION ALL ";
+    });
+
+    query = query.substr(0, query.lastIndexOf('U'));
+
+    return query;
+
+    // const pointOfInterestId = req.params.pointOfInterestId;
+    // const userId = req.params.userId;
+    //
+    // return squel.insert()
+    //     .into("UserPointOfInterest")
+    //     .set("pointOfInterestId", pointOfInterestId)
+    //     .set("userId", userId)
+    //     .toString();
 }
 
 function createUserPointOfInterest(req) {
     const query = createUserPointOfInterestQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getPointsOfInterestQuery() {
     return 'Select * FROM PointOfInterest';
+
+
 }
 
 function getPointsOfInterest() {
     const query = getPointsOfInterestQuery();
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
+
+function getPointsOfInterestCategoryQuery() {
+    return 'Select * FROM PointOfInterestCategory' +
+        ' INNER JOIN PointOfInterest ON PointOfInterest.pointOfInterestId = PointOfInterestCategory.pointOfInterestId ' +
+        " INNER JOIN Category ON Category.categoryId=PointOfInterestCategory.categoryId ;"
+
+}
+
+function getPointsOfInterestCategory() {
+    const query = getPointsOfInterestCategoryQuery();
+
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
+}
+
+function getPointsOfInterestRankQuery() {
+    return 'Select * FROM PointOfInterestUserRank' +
+        ' INNER JOIN PointOfInterest ON PointOfInterest.pointOfInterestId = PointOfInterestUserRank.pointOfInterestId ' +
+        " INNER JOIN Rank ON Rank.rankId=PointOfInterestUserRank.rankId ;"
+}
+
+function getPointsOfInterestRank() {
+    const query = getPointsOfInterestRankQuery();
+
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
+}
+
 
 function getPointsOfInterestByCategoryQuery(req) {
     const categoryId = req.params.categoryId;
@@ -55,7 +103,7 @@ function getPointsOfInterestByCategoryQuery(req) {
 function getPointsOfInterestByCategory(req) {
     const query = getPointsOfInterestByCategoryQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getUserPointsOfInterestQuery(req) {
@@ -69,7 +117,7 @@ function getUserPointsOfInterestQuery(req) {
 function getUserPointsOfInterest(req) {
     const query = getUserPointsOfInterestQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getPointOfInterestQuery(req) {
@@ -82,7 +130,7 @@ function getPointOfInterestQuery(req) {
 function getPointOfInterest(req) {
     const query = getPointOfInterestQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function updatePointOfInterestQuery(req) {
@@ -100,7 +148,7 @@ function updatePointOfInterestQuery(req) {
 function updatePointOfInterest(req) {
     const query = updatePointOfInterestQuery(req);
 
-    return DButilsAzureService.Update(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function removePointOfInterestQuery(req) {
@@ -112,7 +160,7 @@ function removePointOfInterestQuery(req) {
 function removePointOfInterest(req) {
     const query = removePointOfInterestQuery(req);
 
-    return DButilsAzureService.Delete(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function createPointOfInterestRankQuery(req, rankId) {
@@ -130,7 +178,7 @@ function createPointOfInterestRankQuery(req, rankId) {
 function createPointOfInterestRank(req, rankId) {
     const query = createPointOfInterestRankQuery(req, rankId);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function addPointOfInterestCategoryQuery(req) {
@@ -147,7 +195,7 @@ function addPointOfInterestCategoryQuery(req) {
 function addPointOfInterestCategory(req) {
     const query = addPointOfInterestCategoryQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function removeUserPointOfInterestQuery(req) {
@@ -155,8 +203,8 @@ function removeUserPointOfInterestQuery(req) {
     const pointOfInterestId = req.params.pointOfInterestId;
 
     return "DELETE FROM UserPointOfInterest " +
-        "WHERE userId=" + userId +
-        "AND WHERE UserPointOfInterest.pointOfInterestId=" + pointOfInterestId;
+        " WHERE userId=" + userId +
+        " AND UserPointOfInterest.pointOfInterestId=" + pointOfInterestId;
 }
 
 function removeUserPointOfInterest(req) {
@@ -176,7 +224,7 @@ function getPointOfInterestCategoriesQuery(req) {
 function getPointOfInterestCategories(req) {
     const query = getPointOfInterestCategoriesQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function createPointOfInterestReviewQuery(req, reviewId) {
@@ -194,7 +242,7 @@ function createPointOfInterestReviewQuery(req, reviewId) {
 function createPointOfInterestUserReview(req, reviewId) {
     const query = createPointOfInterestReviewQuery(req, reviewId);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function createPointOfInterestVisitQuery(req, visitId) {
@@ -212,7 +260,7 @@ function createPointOfInterestVisitQuery(req, visitId) {
 function createPointOfInterestUserVisit(req, visitId) {
     const query = createPointOfInterestVisitQuery(req, visitId);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getPointOfInterestVisitsQuery(req) {
@@ -226,7 +274,7 @@ function getPointOfInterestVisitsQuery(req) {
 function getPointOfInterestVisits(req) {
     const query = getPointOfInterestVisitsQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getUserPointOfInterestReviewsQuery(req) {
@@ -242,7 +290,7 @@ function getUserPointOfInterestReviewsQuery(req) {
 function getUserPointOfInterestReviews(req) {
     const query = getUserPointOfInterestReviewsQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getUserPointOfInterestVisitsQuery(req) {
@@ -276,13 +324,13 @@ function getPointOfInterestRanksQuery(req) {
 
     return 'Select * FROM PointOfInterestUserRank' +
         ' INNER JOIN Rank ON Rank.rankId = PointOfInterestUserRank.rankId' +
-        ' WHERE PointOfInterestUserRank.pointOfInterestId=' + pointOfInterestId ;
+        ' WHERE PointOfInterestUserRank.pointOfInterestId=' + pointOfInterestId;
 }
 
 function getPointOfInterestRanks(req) {
     const query = getPointOfInterestRanksQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getPointOfInterestReviewsQuery(req) {
@@ -296,7 +344,7 @@ function getPointOfInterestReviewsQuery(req) {
 function getPointOfInterestReviews(req) {
     const query = getPointOfInterestReviewsQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function addPointOfInterestCategoriesQuery(req, pointOfInterestId) {
@@ -321,7 +369,7 @@ function addPointOfInterestCategories(req, pointOfInterestId) {
 
         const query = addPointOfInterestCategoriesQuery(req, pointOfInterestId);
 
-        return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+        return DButilsAzureService.query(DButilsAzureService.connection, query);
     });
 }
 
@@ -331,7 +379,7 @@ function getLastAddedPointOfInterestId() {
 
         const query = "SELECT TOP 1 * FROM PointOfInterest ORDER BY pointOfInterestId DESC";
 
-        DButilsAzureService.Select(DButilsAzureService.connection, query)
+        DButilsAzureService.query(DButilsAzureService.connection, query)
             .then(function (pointOfInterestId) {
                 console.log("**last added rank ID: " + pointOfInterestId[0].pointOfInterestId + "**");
 
@@ -354,7 +402,7 @@ function findPointOfInterestQuery(req) {
 function findPointOfInterest(req) {
     const query = findPointOfInterestQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 
@@ -402,6 +450,10 @@ module.exports = {
     getUserPointOfInterestVisits,
 
     getPointsOfInterestByCategory,
+
+    getPointsOfInterestCategory,
+
+    getPointsOfInterestRank,
 
     handleError
 };

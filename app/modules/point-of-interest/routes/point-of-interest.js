@@ -9,6 +9,12 @@ router
     .get('/list', pointOfInterestController.getPointsOfInterest);
 
 router
+    .get('/category/list', pointOfInterestController.getPointsOfInterestCategory);
+
+router
+    .get('/rank/list', pointOfInterestController.getPointsOfInterestRanks);
+
+router
     .get('/category/:categoryId/list', pointOfInterestController.getPointsOfInterestByCategory);
 
 router
@@ -22,6 +28,9 @@ router
 router
     .post('/:pointOfInterestId/user/:userId', pointOfInterestController.addUserPointOfInterest)
     .delete('/:pointOfInterestId/user/:userId', pointOfInterestController.deleteUserPointOfInterest);
+
+router
+    .post('/user/:userId', pointOfInterestController.addUserPointOfInterest)
 
 router
     .post('/:pointOfInterestId/user/:userId/rank', pointOfInterestController.createUserPointOfInterestRank);

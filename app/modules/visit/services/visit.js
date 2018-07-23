@@ -13,7 +13,7 @@ function createVisitQuery() {
 function createVisit() {
     const query = createVisitQuery();
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 
@@ -23,7 +23,7 @@ function getLastAddedVisitId() {
 
         const query = "SELECT TOP 1 visitId FROM Visit ORDER BY visitId DESC";
 
-        DButilsAzureService.Select(DButilsAzureService.connection, query)
+        DButilsAzureService.query(DButilsAzureService.connection, query)
             .then(function (visitId) {
                 console.log("**last added visit ID: " + visitId[0].visitId + "**");
 

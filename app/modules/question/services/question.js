@@ -11,7 +11,7 @@ function addQuestionQuery(req) {
 function addQuestion(req) {
     const query = addQuestionQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getQuestionsQuery() {
@@ -21,7 +21,7 @@ function getQuestionsQuery() {
 function getQuestions() {
     const query = getQuestionsQuery();
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function removeQuestionQuery(req) {
@@ -33,7 +33,7 @@ function removeQuestionQuery(req) {
 function removeQuestion(req) {
     const query = removeQuestionQuery(req);
 
-    return DButilsAzureService.Delete(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function updateQuestionQuery(req) {
@@ -49,7 +49,7 @@ function updateQuestionQuery(req) {
 function updateQuestion(req) {
     const query = updateQuestionQuery(req);
 
-    return DButilsAzureService.Update(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getQuestionQuery(req) {
@@ -62,7 +62,7 @@ function getQuestionQuery(req) {
 function getQuestion(req) {
     const query = getQuestionQuery(req);
 
-    return DButilsAzureService.Select(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function handleError(err, res) {

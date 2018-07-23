@@ -42,6 +42,34 @@ function getPointsOfInterest(req, res) {
         })
 }
 
+function getPointsOfInterestCategory(req, res) {
+    console.log("**GET request for getting  all point of interest categories**");
+
+    PointOfInterestService.getPointsOfInterestCategory()
+        .then(function (pointOfInterestCategories) {
+            res.send(pointOfInterestCategories);
+        })
+        .catch(function (err) {
+            console.log(err.message);
+
+            PointOfInterestService.handleError(err, res);
+        })
+}
+
+function getPointsOfInterestRanks(req, res) {
+    console.log("**GET request for getting  all point of interest ranks**");
+
+    PointOfInterestService.getPointsOfInterestRank()
+        .then(function (pointOfInterestRanks) {
+            res.send(pointOfInterestRanks);
+        })
+        .catch(function (err) {
+            console.log(err.message);
+
+            PointOfInterestService.handleError(err, res);
+        })
+}
+
 function getPointsOfInterestByCategory(req, res) {
     console.log("**GET request for getting  all point of interest by category**");
 
@@ -298,6 +326,8 @@ module.exports = {
 
     getPointsOfInterest,
 
+    getPointsOfInterestCategory,
+
     getPointOfInterest,
 
     updatePointOfInterest,
@@ -329,6 +359,8 @@ module.exports = {
     getPointOfInterestUserVisits,
 
     addPointOfInterestUserVisit,
+
+    getPointsOfInterestRanks,
 
     getPointsOfInterestByCategory
 };

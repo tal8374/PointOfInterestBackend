@@ -15,7 +15,7 @@ function createRankQuery(req) {
 function createRank(req) {
     const query = createRankQuery(req);
 
-    return DButilsAzureService.Insert(DButilsAzureService.connection, query);
+    return DButilsAzureService.query(DButilsAzureService.connection, query);
 }
 
 function getLastAddedRankId() {
@@ -24,7 +24,7 @@ function getLastAddedRankId() {
 
         const query = "SELECT TOP 1 * FROM Rank ORDER BY rankId DESC";
 
-        DButilsAzureService.Select(DButilsAzureService.connection, query)
+        DButilsAzureService.query(DButilsAzureService.connection, query)
             .then(function (reviewId) {
                 console.log("**last added rank ID: " + reviewId[0].rankId + "**");
 
